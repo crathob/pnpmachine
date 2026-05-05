@@ -29,7 +29,7 @@ const goToFirstPlacement = async () => {
     const blob = await response.blob();
     const tempurl2 = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
+    a.href = tempurl2;
     a.download = 'FirstPlacement.txt';
     a.click();
     window.URL.revokeObjectURL(tempurl2);
