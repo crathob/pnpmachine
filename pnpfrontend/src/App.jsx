@@ -10,17 +10,13 @@ function App()  {
   const [feedersFile, feedersfileSet] = useState('');
 
   const [count, setCount] = useState(0);
-  console.log(document.fonts.check('12px "Inter"'));
 
   const handleFirstClick = async () => {
-    const data = await goToFirstPlacement();
+    await goToFirstPlacement(posx, posy);
   }
 
   const handleGCodeClick = async () => {
-    console.log('placements:', placementsFile);
-    console.log('packages:', packagesFile);
-    console.log('feeders:', feedersFile);
-    const data = await generateGCode(placementsFile, packagesFile, feedersFile);
+    await generateGCode(placementsFile, packagesFile, feedersFile, posx, posy);
   }
 
 return (

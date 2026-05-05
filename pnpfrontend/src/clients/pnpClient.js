@@ -3,11 +3,13 @@ import { Form } from "lucide-react";
 const baseurl = 'http://localhost:30000/api/v1';
 
 
-export const generateGCode = async (placements, packages, feeders) => {
+const generateGCode = async (placements, packages, feeders, posx, posy) => {
     const data = new FormData();
     data.append('placements', placements);
     data.append('packages', packages);
     data.append('feeders', feeders);
+    data.append('posx', posx);
+    data.append('posy', posy);
 
     const response = await fetch(`${baseurl}/gcode`,{
         method: 'POST',
@@ -22,7 +24,11 @@ export const generateGCode = async (placements, packages, feeders) => {
     window.URL.revokeObjectURL(tempurl);
 }
 
-const goToFirstPlacement = async () => {
+const goToFirstPlacement = async (posx, posy) => {
+    const data = new FormData();
+    data.append('posx', posx);
+    data.append('posy', posy);
+
     const response = await fetch(`${baseurl}/first`,{
         method: 'POST'
     });
@@ -35,4 +41,4 @@ const goToFirstPlacement = async () => {
     window.URL.revokeObjectURL(tempurl2);
 }
 
-export {goToFirstPlacement};
+export {goToFirstPlacement, generateGCode};
