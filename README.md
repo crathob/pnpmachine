@@ -1,20 +1,15 @@
-#Pick and Place G-Code Generator
-This full-stack application generates gcode that is used by a dual head pick and place machine. It uses a renamed gerber file from commercial EDA packages, a configuration of part feeders and a list of useable packages to populate a path planning algorithm. The path includes commands that picks up and places parts with both pneumatic heads while moving between feeder and placement locations. Lastly, the user can use the output text file with an interpreter like Pronterface to control the machine.
+#Pick and Place G-Code Generator 
 
-The technology stack consist of react and tailwind framework to create a user interface. The backend is built on node.js, with multer for filehandling, ini for configuration files and express for routing.
+An application is required to write G-Code for a laboratory or hobbyist pick and place machine. The machine automates the board populating process of Printer Circuit Board Assemblies (PCBA), commonly used in PCB houses which produce consumer electronic components in industrial volumes. When manufacturing small quantities of circuit boards for personal, educational or prototyping use vacuum suction pens are used to pick up passive and intergrated circuit components from trays and to place them on the footprints of pads on the circuit board. For multiple boards, the manual process becomes time-consuming and inaccurate placements decreases product quality by introducing conductivity problems or missing components. By automating this process, multiple error sources are removed and production rate is increased. 
 
-The picture.jpg image in the repository was taken after the demonstration at university.
+It was decided to release a version of the previously monolithic C# code-base that used a split front-backend design. By separating concerns using a Model-View-Controller based architecture, each structural function was allocated its own module. This allows the code-base to be easier to update, modify and extend. Concise comments provide a clear understanding of code and makes troubleshooting easier. The front-end is built using a React-based view layer and provides the application functions to the user. Component state is managed using React's useState hook, handling file selections and coordinate inputs. API communication is abstracted into a dedicated client module, separating network concerns from the view layer. The back-end is separated into six modules with separate concerns. Express middleware provides routes between the endpoints. A controller handles business logic such as path planning, creating g-code and file I/O. A models module has repositories for the parts list that should be placed, available parts feeders and a list of allowed components. It also validates file inputs through format checks and seeing whether the files were uploaded. A configuration module reads a config file with the INI middleware, allowing machine configuration settings to be used by the different modules. Lastly, a RESTful API sends multiple files through form data and receives error message responses in JSON for the back-end. 
 
-It has:
-1. Data validation in models to ensure data from file inputs match an expected format.
-2. Clean, maintainable code structured that aims to meet SOLID principles.
-3. Separation of concerns that divides functions and objects into services, clients, controllers etc.
-4. Error handling for missing or incorrect data that sends codes and messages to the front end.
-5. Explanatory comments in code.
-6. A list of short commit comments on GitHub to explain changes throughout the lifecycle.
-7. RESTful API design
-8. Asyncronous methods for file operations that prevent the event loop in the backend from being blocked and other requests being handled.
+The application uses a path planning algorithm to decide which placement head moves what component in order. The project's dual-headed end effectors need to pick up two components before moving to the placement condition and needs to omit unplaceable components that do not have available parts. This allows the system to be more robust, populating boards under supply chain constraints. These two decisions adds significant complexity to the business services code. The pathplanning approach was to find the least complex algorithm that would populate the placements with available parts, given the physical assembly. Optimising route length was omitted as it did not improve production speed enough at this scale and the resources was better spent elsewhere. Identical feeders of the same parts use priority numbers to decide which is used first. The code is further simplified by having algorithms for picking and placing, since each pneumatic head is identical. 
 
+Errors are handled gracefully in services and models by returning 400 errors with appropriate descriptions to the front-end. Data validation is used to ensure only sanitised inputs are processed. Only two routing endpoints are used to send files and information to the backend, with files returned as raw data attached to the form body. 
 
-#History
-The application was developed in partial fulfillment of a Bachelor's degree in Mechatronic Engineering. The version used in the project had a monolithic C# codebase, with a form and single module. It was updated in May 2026 to the react/node.js version that exists today.
+The picture.jpg image in the repository was taken after the demonstration at university. 
+
+#History The application was developed in partial fulfillment of a Bachelor's degree in Mechatronic Engineering. The version used in the project had a monolithic C# codebase, with a form and single module. After the project and without much commercial appeal, it was decided to use the electronic domain knowledge and repurpose the software portion to learn software development. It was updated in May 2026 to the react/node.js version that exists today.
+
+![Application screenshot](picture.jpg)
