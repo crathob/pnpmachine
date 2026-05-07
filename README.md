@@ -1,4 +1,10 @@
-#Pick and Place G-Code Generator 
+#Pick and Place G-Code Generator
+
+Instructions:
+1. All three input files are in the '/files' subfolder and can be uploaded on the website.
+2. Start the front and back-end.
+3. Select the input files.
+4. Select 'Generate G-Code' or 'First Placement' to start the download of the output file. 
 
 An application is required to write G-Code for a laboratory or hobbyist pick and place machine. The machine automates the board populating process of Printer Circuit Board Assemblies (PCBA), commonly used in PCB houses which produce consumer electronic components in industrial volumes. When manufacturing small quantities of circuit boards for personal, educational or prototyping use vacuum suction pens are used to pick up passive and intergrated circuit components from trays and to place them on the footprints of pads on the circuit board. For multiple boards, the manual process becomes time-consuming and inaccurate placements decreases product quality by introducing conductivity problems or missing components. By automating this process, multiple error sources are removed and production rate is increased. 
 
